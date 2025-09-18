@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+  <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="generator" content="Typelevel Laika + Helium Theme" />
+  <title>idempotency</title>
+  
+  <meta name="author" content="AlixBa"/>
+  
+  
+  <meta name="description" content="idempotency-docs"/>
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700">
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono:500">
+  
+  <link rel="stylesheet" type="text/css" href="helium/site/icofont.min.css" />
+    <link rel="stylesheet" type="text/css" href="helium/site/laika-helium.css" />
+    <link rel="stylesheet" type="text/css" href="helium/site/landing-page.css" />
+  <script src="helium/site/laika-helium.js"></script>
+  
+  
+  <script> /* for avoiding page load transitions */ </script>
+</head>
+
+  <body>
+
+    <header id="top-bar" class="light-default dark-default">
+
+  <div class="row">
+    <a id="nav-icon">
+      <i class="icofont-laika navigationMenu" title="Navigation">&#xefa2;</i>
+    </a>
+    
+    
+  </div>
+
+  <a class="icon-link glyph-link" href="#"><i class="icofont-laika home" title="Home">&#xef47;</i></a>
+
+  <div class="row links">
+    
+    <a class="icon-link svg-link" href="https://github.com/AlixBa/idempotency"><span class="github" title="Source Code"><svg class="svg-icon" width="100%" height="100%" viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+  <g class="svg-shape">
+    <path d="M49.995,1c-27.609,-0 -49.995,22.386 -49.995,50.002c-0,22.09 14.325,40.83 34.194,47.444c2.501,0.458 3.413,-1.086 3.413,-2.412c0,-1.185 -0.043,-4.331 -0.067,-8.503c-13.908,3.021 -16.843,-6.704 -16.843,-6.704c-2.274,-5.773 -5.552,-7.311 -5.552,-7.311c-4.54,-3.103 0.344,-3.042 0.344,-3.042c5.018,0.356 7.658,5.154 7.658,5.154c4.46,7.64 11.704,5.433 14.552,4.156c0.454,-3.232 1.744,-5.436 3.174,-6.685c-11.102,-1.262 -22.775,-5.553 -22.775,-24.713c-0,-5.457 1.949,-9.92 5.147,-13.416c-0.516,-1.265 -2.231,-6.348 0.488,-13.233c0,0 4.199,-1.344 13.751,5.126c3.988,-1.108 8.266,-1.663 12.518,-1.682c4.245,0.019 8.523,0.574 12.517,1.682c9.546,-6.47 13.736,-5.126 13.736,-5.126c2.728,6.885 1.013,11.968 0.497,13.233c3.204,3.496 5.141,7.959 5.141,13.416c0,19.209 -11.691,23.436 -22.83,24.673c1.795,1.544 3.394,4.595 3.394,9.26c0,6.682 -0.061,12.076 -0.061,13.715c0,1.338 0.899,2.894 3.438,2.406c19.853,-6.627 34.166,-25.354 34.166,-47.438c-0,-27.616 -22.389,-50.002 -50.005,-50.002"/>
+  </g>
+</svg></span></a>
+    
+  </div>  
+
+</header>
+    
+    <nav id="sidebar">
+
+  <div class="row">
+    
+    <a class="icon-link svg-link" href="https://github.com/AlixBa/idempotency"><span class="github" title="Source Code"><svg class="svg-icon" width="100%" height="100%" viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+  <g class="svg-shape">
+    <path d="M49.995,1c-27.609,-0 -49.995,22.386 -49.995,50.002c-0,22.09 14.325,40.83 34.194,47.444c2.501,0.458 3.413,-1.086 3.413,-2.412c0,-1.185 -0.043,-4.331 -0.067,-8.503c-13.908,3.021 -16.843,-6.704 -16.843,-6.704c-2.274,-5.773 -5.552,-7.311 -5.552,-7.311c-4.54,-3.103 0.344,-3.042 0.344,-3.042c5.018,0.356 7.658,5.154 7.658,5.154c4.46,7.64 11.704,5.433 14.552,4.156c0.454,-3.232 1.744,-5.436 3.174,-6.685c-11.102,-1.262 -22.775,-5.553 -22.775,-24.713c-0,-5.457 1.949,-9.92 5.147,-13.416c-0.516,-1.265 -2.231,-6.348 0.488,-13.233c0,0 4.199,-1.344 13.751,5.126c3.988,-1.108 8.266,-1.663 12.518,-1.682c4.245,0.019 8.523,0.574 12.517,1.682c9.546,-6.47 13.736,-5.126 13.736,-5.126c2.728,6.885 1.013,11.968 0.497,13.233c3.204,3.496 5.141,7.959 5.141,13.416c0,19.209 -11.691,23.436 -22.83,24.673c1.795,1.544 3.394,4.595 3.394,9.26c0,6.682 -0.061,12.076 -0.061,13.715c0,1.338 0.899,2.894 3.438,2.406c19.853,-6.627 34.166,-25.354 34.166,-47.438c-0,-27.616 -22.389,-50.002 -50.005,-50.002"/>
+  </g>
+</svg></span></a>
+    
+  </div>
+
+  <ul class="nav-list">
+  </ul>
+
+</nav>
+
+    <div id="container">
+
+      
+<nav id="page-nav">
+  <p class="header"><a href="#">idempotency</a></p>
+
+  <ul class="nav-list">
+    <li class="level1 nav-leaf"><a href="#goal">Goal</a></li>
+    <li class="level1 nav-leaf"><a href="#usage">Usage</a></li>
+  </ul>
+
+  <p class="footer"></p>
+</nav>
+
+
+      <main class="content">
+
+        <h1 id="idempotency" class="title">idempotency</h1>
+        <p>A library providing idempotency support for non-idempotent APIs calls.</p>
+        
+        <h3 id="goal" class="section"><a class="anchor-link left" href="#goal"><i class="icofont-laika link">&#xef71;</i></a>Goal</h3>
+        <p>Dealing with network calls (http, database, etc) is subject to failure. In some cases, you expect the call to be idempotent, meaning that no matter how much time you do the same call, you expect the same result. By wrapping network calls with an idempotent behavior, one can focus on the business logic of processes.</p>
+        <pre><code class="nohighlight"><span class="keyword">import</span><span> </span><span class="identifier">cats</span><span>.</span><span class="identifier">effect</span><span>.</span><span class="type-name">IO</span><span>
+</span><span class="keyword">import</span><span> </span><span class="identifier">cats</span><span>.</span><span class="identifier">effect</span><span>.</span><span class="type-name">Resource</span><span>
+</span><span class="keyword">import</span><span> </span><span class="identifier">io</span><span>.</span><span class="identifier">github</span><span>.</span><span class="identifier">alixba</span><span>.</span><span class="identifier">idempotency</span><span>.</span><span class="type-name">IdempotencyService</span><span>
+
+</span><span class="comment">// Let&#39;s assume an incoming request Req goes through 3 steps.
+//
+// We don&#39;t have any guarantee that we can retry indefinitely
+// on a failed step, as the server could shut down, or it might
+// need a proper fix before being resolved.
+//
+// But we need this `run` to reach the `save` step eventually.
+</span><span class="keyword">def</span><span> </span><span class="declaration-name">run</span><span>[</span><span class="type-name">Req</span><span>](
+  </span><span class="identifier">getDataNonIdempotent</span><span>: </span><span class="type-name">Req</span><span> =&gt; </span><span class="type-name">IO</span><span>[</span><span class="type-name">Int</span><span>],
+  </span><span class="identifier">callExternalService</span><span>: </span><span class="type-name">Int</span><span> =&gt; </span><span class="type-name">IO</span><span>[</span><span class="type-name">Unit</span><span>],
+  </span><span class="identifier">save</span><span>: (</span><span class="type-name">Req</span><span>, </span><span class="type-name">Int</span><span>) =&gt; </span><span class="type-name">IO</span><span>[</span><span class="type-name">Unit</span><span>]
+): </span><span class="type-name">Req</span><span> =&gt; </span><span class="type-name">IO</span><span>[</span><span class="type-name">Unit</span><span>] = (</span><span class="identifier">req</span><span>: </span><span class="type-name">Req</span><span>) =&gt; </span><span class="keyword">for</span><span> {
+  </span><span class="identifier">data</span><span> &lt;- </span><span class="identifier">getDataNonIdempotent</span><span>(</span><span class="identifier">req</span><span>)
+  </span><span class="identifier">_</span><span> &lt;- </span><span class="identifier">callExternalService</span><span>(</span><span class="identifier">data</span><span>)
+  </span><span class="identifier">_</span><span> &lt;- </span><span class="identifier">save</span><span>(</span><span class="identifier">req</span><span>, </span><span class="identifier">data</span><span>)
+} </span><span class="keyword">yield</span><span> ()
+
+</span><span class="comment">// Some kind of HTTP server
+</span><span class="keyword">def</span><span> </span><span class="declaration-name">server</span><span>[</span><span class="type-name">Req</span><span>](</span><span class="identifier">useCase</span><span>: </span><span class="type-name">Req</span><span> =&gt; </span><span class="type-name">IO</span><span>[</span><span class="type-name">Unit</span><span>]): </span><span class="type-name">Resource</span><span>[</span><span class="type-name">IO</span><span>, </span><span class="type-name">Unit</span><span>] = ???
+
+</span><span class="keyword">def</span><span> </span><span class="declaration-name">program</span><span>[</span><span class="type-name">Req</span><span>] = {
+  </span><span class="keyword">val</span><span> </span><span class="identifier">run0</span><span> = </span><span class="identifier">run</span><span>[</span><span class="type-name">Req</span><span>](
+    </span><span class="identifier">getDataNonIdempotent</span><span> = </span><span class="identifier">_</span><span> =&gt; </span><span class="type-name">IO</span><span>.</span><span class="identifier">pure</span><span>(</span><span class="number-literal">1</span><span>),
+    </span><span class="identifier">callExternalService</span><span> = </span><span class="identifier">_</span><span> =&gt; </span><span class="type-name">IO</span><span>.</span><span class="identifier">unit</span><span>,
+    </span><span class="identifier">save</span><span> = (</span><span class="identifier">_</span><span>, </span><span class="identifier">_</span><span>) =&gt; </span><span class="type-name">IO</span><span>.</span><span class="identifier">unit</span><span>
+  )
+
+  </span><span class="comment">// basic retry until it succeeds.
+</span><span>  </span><span class="comment">// not idempotent on each retry, so every call to `callExternalService`
+</span><span>  </span><span class="comment">// can have a different input until `run` reaches a final successful state
+</span><span>  </span><span class="keyword">val</span><span> </span><span class="identifier">run1</span><span> = (</span><span class="identifier">req</span><span>: </span><span class="type-name">Req</span><span>) =&gt; </span><span class="identifier">run0</span><span>(</span><span class="identifier">req</span><span>).</span><span class="identifier">recoverWith</span><span>(</span><span class="identifier">_</span><span> =&gt; </span><span class="identifier">run0</span><span>(</span><span class="identifier">req</span><span>))
+
+  </span><span class="identifier">server</span><span>[</span><span class="type-name">Req</span><span>](</span><span class="identifier">run1</span><span>).</span><span class="identifier">use</span><span>(</span><span class="identifier">_</span><span> =&gt; </span><span class="type-name">IO</span><span>.</span><span class="identifier">never</span><span>)
+}
+
+</span><span class="comment">// With this simple implementation, since `getData` is not idempotent,
+// each retry can result in a different final state. We can also imagine
+// that we&#39;re making a PUT or POST HTTP request, and we don&#39;t want to
+// create too many resources.
+</span><span>
+</span><span class="comment">// By wrapping `getData` with an idempotent behavior, the retry is safer,
+// and it doesn&#39;t leak in the implementation of `run`. By having a generic
+// IdempotencyService, this behavior can easily be extended to all non-
+// idempotent calls such as HTTP calls, SQL queries and many more.
+</span><span class="keyword">def</span><span> </span><span class="declaration-name">makeIdempotent</span><span>[</span><span class="type-name">Req</span><span>](
+    </span><span class="identifier">service</span><span>: </span><span class="type-name">IdempotencyService</span><span>[</span><span class="type-name">IO</span><span>, </span><span class="type-name">String</span><span>, </span><span class="type-name">Int</span><span>],
+    </span><span class="identifier">key</span><span>: </span><span class="type-name">Req</span><span> =&gt; </span><span class="type-name">String</span><span>,
+    </span><span class="identifier">getDataNonIdempotent</span><span>: </span><span class="type-name">Req</span><span> =&gt; </span><span class="type-name">IO</span><span>[</span><span class="type-name">Int</span><span>]
+): </span><span class="type-name">Req</span><span> =&gt; </span><span class="type-name">IO</span><span>[</span><span class="type-name">Int</span><span>] = </span><span class="identifier">req</span><span> =&gt; </span><span class="identifier">service</span><span>.</span><span class="identifier">execute</span><span>(</span><span class="identifier">key</span><span>(</span><span class="identifier">req</span><span>))(</span><span class="identifier">getDataNonIdempotent</span><span>(</span><span class="identifier">req</span><span>))</span></code></pre>
+        
+        <h3 id="usage" class="section"><a class="anchor-link left" href="#usage"><i class="icofont-laika link">&#xef71;</i></a>Usage</h3>
+        <p>This library is currently available for Scala binary versions 2.13 and 3.3+.
+        To use the latest version, include the following in your <code>build.sbt</code>:</p>
+        <pre class="keep-together pdf epub"><code class="nohighlight"><span class="identifier">libraryDependencies</span><span> ++= </span><span class="type-name">Seq</span><span>(
+  </span><span class="string-literal">&quot;io.github.alixba&quot;</span><span> %% </span><span class="string-literal">&quot;idempotency-core&quot;</span><span> % </span><span class="string-literal">&quot;0.1-2e0fb29-SNAPSHOT&quot;</span><span>
+  </span><span class="string-literal">&quot;io.github.alixba&quot;</span><span> %% </span><span class="string-literal">&quot;idempotency-doobie-postgres&quot;</span><span> % </span><span class="string-literal">&quot;0.1-2e0fb29-SNAPSHOT&quot;</span><span>
+)</span></code></pre>
+
+        
+<hr class="footer-rule"/>
+<footer>
+  Site generated by <a href="https://typelevel.org/Laika/">Laika</a> with the Helium theme.
+</footer>
+
+
+      </main>
+
+    </div>
+
+  </body>
+
+</html>
