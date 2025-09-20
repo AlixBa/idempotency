@@ -46,7 +46,7 @@ class TraceIdempotencyLockProviderSuite extends CatsEffectSuite {
 
         assertEquals(head.name, "IdempotencyLockProvider.lock")
         assertEquals(key, "key".some)
-        assert(duration.map(_.toMillis).getOrElse(0L) > 100L)
+        assert(duration.map(_.toMillis).getOrElse(0L) >= 100L)
 
       }
     }

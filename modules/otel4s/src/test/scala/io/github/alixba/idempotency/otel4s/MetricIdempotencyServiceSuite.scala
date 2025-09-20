@@ -43,7 +43,7 @@ class MetricIdempotencyServiceSuite extends CatsEffectSuite {
         val duration = point.timeWindow.end - point.timeWindow.start
 
         assertEquals(head.name, "idempotency_service_execute_seconds")
-        assert(duration.toMillis > 100)
+        assert(duration.toMillis >= 100)
       }
     }
   }
